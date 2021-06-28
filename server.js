@@ -17,6 +17,6 @@ app.get('/', (req, res) => {
         writer: 'test writer2',
         createdAt : new Date(),
     }]
-    res.render('index', { posts: posts })
+    res.render('posts/index', { posts: posts })
 })
 app.listen(5000)
