@@ -7,6 +7,11 @@ app.set('view engine', 'ejs')
 app.use('/posts', postsRouter)
 
 app.get('/', (req, res) => {
-    res.render('index')
+    const post = [{
+        title: 'test post',
+        writer: 'test writer',
+        createdAt : Date.now(),
+    }]
+    res.render('index', { posts: post })
 })
 app.listen(5000)
