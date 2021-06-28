@@ -8,7 +8,11 @@
 </head>
 <body>
     <div>
-        test
+        <h1 class="mb-4">New Post</h1>
+<!-- 요 아래부터 수정이든 생성이든 같은 양식이기 때문에 _form_fields사용 -->
+        <form action="/posts" method="POST"> 
+            <%- include('_form_fields') %>
+        </form>
     </div>
 </body>
 </html>
