@@ -12,28 +12,13 @@
       background-attachment: fixed;}
 </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-
-  
-  function ajax_move() {
-    $.ajax({
-      type: "get",
-      url: `/articles/tt`,
-      data: { },
-      success: function (response) {
-        location.href = '/articles/tt'
-        }
-      })
-  }
-  
-</script>
-
 <body>
   <div class="container">
     <h1 class="mb-4 text-center">어서와 난 피카츄라고해</h1>
     <a href="/articles/new" class="btn btn-success">글쓸래</a>
-    
+    <a href="/signUp" class="btn btn-info">회원가입</a>
+    <a href="/auth" class="btn btn-info">로그인</a>
+
     <% articles.forEach(article => { %>
       <div class="card mt-4">
         <div class="card-body">

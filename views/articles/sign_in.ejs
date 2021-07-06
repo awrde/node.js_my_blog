@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>로그인</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+function ajaxSignIn() {
+    const nickname = $('#nickname').val()
+    const password = $('#password').val()
+    $.ajax({
+        type: "POST",
+        url: '/auth',
+        data: { nickname, password },
+        success: function (response) {
+            // if(!token) {
+            //     alert('닉네임 또는 비밀번호를 확인해')
+                
+            // }
+            // else {
+            //     alert('로그인 확인됐어!')
+            //     location.href ='/'
+            // }
+            if (response === 'welcome') {
+                alert('로그인 확인됐어!')
+                location.href = '/'
+            } else {
+                alert('닉네임 또는 비밀번호를 확인해!')
+            }
+
+        }
+    })
+}
+
+</script>
+
+<body>
+    로그인 페이지
+    <div class="container">
+        <div class="form-group">
+            <label for="nickname">닉네임</label>
+            <textarea required name="nickname" id="nickname" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="password">비밀번호</label>
+            <textarea required name="password" id="password" class="form-control"></textarea>
+          </div>
+
+    <button onclick="ajaxSignIn()" class="btn btn-primary">로그인</button>
+    <a href="/signUp" class="btn btn-info">회원가입</a>
+    <a href="/" class= "btn btn-secondary">취소</a>
+    </div>
+</body>
+</html>
