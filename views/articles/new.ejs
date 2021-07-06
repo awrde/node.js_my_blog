@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog</title>
+</head>
+
+<style>
+  body{background-image: url(https://mblogthumb-phinf.pstatic.net/MjAxNzA1MTFfOTYg/MDAxNDk0NTA0ODI2NjAx.EbX5xOfwcGaXgH7Z36waoMwAn-UH1zOI_EQIZXgju_Eg.PtG2P4C4SLLDzcPXJXaUL4i3q2oNYJ2ZlP6Yut1OZfkg.GIF.h0pe_goodluck/2249508219021_8RXO80511.gif?type=w800);
+      background-attachment: fixed;}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+   function ajax_new() {
+    const title = $('#title').val()
+    const description = $('#description').val()
+    const writer = $('#writer').val()
+    const password = $('#password').val()
+    $.ajax({
+      type: "post",
+      url: `/articles`,
+      data: { title, description, writer, password},
+      success: function (response) {
+        if (response === 'correct') {
+          location.href = '/'
+        } else {
+          alert('비밀번호 틀리면 삭제가 안돼용~')
+        }
+      }
+    })
+  }
+</script>
+
+<body>
+  <div class="container">
+    <h1 class="mb-4 text-center">어디 함 글 솜씨좀 보여줘</h1>
+
+
+    <form action="/articles/" method="POST">
+      <div class="form-group">
+        <label for="title">제목</label>
+        <input required value="<%= article.title %>" type="text" name="title" id="title" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="description">내용</label>
+        <textarea name="description" id="description" class="form-control"><%= article.description %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="writer">작성자</label>
+        <textarea required name="writer" id="writer" class="form-control"><%= article.writer %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="password">비밀번호</label>
+        <textarea required name="password" id="password" class="form-control"><%= article.password %></textarea>
+      </div>
+      
+      <a href="/" class="btn btn-secondary">돌아가기</a>
+      <button type="submit" class="btn btn-primary">글쓰기</button>
+    </form>
+    
+  </div>
+</body>
+</html>

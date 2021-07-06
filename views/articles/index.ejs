@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog</title>
+</head>
+<style>
+  body{background-image: url(https://image.fmkorea.com/files/attach/new/20180627/425547776/837628905/1125113061/be82af9c593fedfcc40d20b5a9dae43c.png);
+      background-attachment: fixed;}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+  
+  function ajax_move() {
+    $.ajax({
+      type: "get",
+      url: `/articles/tt`,
+      data: { },
+      success: function (response) {
+        location.href = '/articles/tt'
+        }
+      })
+  }
+  
+</script>
+
+<body>
+  <div class="container">
+    <h1 class="mb-4 text-center">어서와 난 피카츄라고해</h1>
+    <a href="/articles/new" class="btn btn-success">글쓸래</a>
+    
+    <% articles.forEach(article => { %>
+      <div class="card mt-4">
+        <div class="card-body">
+          <h4 class="card-title">제목 : <%= article.title %></h4>
+          <div class="card-subtitle text-muted mb-2">
+            <%= article.createdAt.toLocaleDateString() %>
+          </div>
+          <div class="card-text mb-2">작성자 : <%= article.writer%></div>
+          <a href="articles/<%= article.id %>" class="btn btn-primary">내용볼래</a>
+          <a href="articles/edit/<%= article.id %>" class="btn btn-info">수정할래</a>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</body>
+</html>

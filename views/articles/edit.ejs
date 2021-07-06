@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog</title>
+</head>
+  <style>
+    
+  body{background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/c7e7d0c6-8bc7-42f8-b532-2b9a7ac7b59e/dcer0s0-4ddd0125-4050-44f2-b875-6bc187575c5a.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2M3ZTdkMGM2LThiYzctNDJmOC1iNTMyLTJiOWE3YWM3YjU5ZVwvZGNlcjBzMC00ZGRkMDEyNS00MDUwLTQ0ZjItYjg3NS02YmMxODc1NzVjNWEuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.mNoPzvw7WUZeb9O5YFkKcTerKdXgIas452PV_w9b9WE);
+      background-attachment: fixed;}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+
+  function ajax_delete() {
+    const password = $('#password').val();
+    const _id = location.pathname.split('/')[3]
+    $.ajax({
+      type: "DELETE",
+      url: `/articles/edit`,
+      data: { password, _id },
+      success: function (response) {
+        if (response === 'correct') {
+          location.href = '/'
+        } else {
+          alert('비밀번호 틀리면 삭제가 안돼용~')
+        }
+      }
+    })
+  }
+
+  function ajax_edit() {
+    const password = $('#password').val()
+    const _id = location.pathname.split('/')[3]
+    const title = $('#title-1').val()
+    const writer = $('#writer').val()
+    const description = $('#description').val()
+    $.ajax({
+      type: "PUT",
+      url: `/articles/edit`,
+      data: { password, _id, title, description, writer },
+      success: function (response) {
+        if (response === 'correct') {
+          location.href = '/'
+        } else {
+          alert('비밀번호 틀리면 수정이 안돼용~')
+        }
+      }
+    })
+  }
+
+
+
+</script>
+
+<body>
+  <div class="container">
+    <h1 class="mb-4">Edit Article</h1>
+
+      <div class="form-group">
+        <label for="title">제목</label>
+        <input required value="<%= article.title %>" type="text" name="title" id="title-1" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="description">내용</label>
+        <textarea name="description" id="description" class="form-control"><%= article.description %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="writer">작성자</label>
+        <textarea required name="writer" id="writer" class="form-control"><%= article.writer %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="password">비밀번호</label>
+        <textarea required name="password" id="password" class="form-control"></textarea>
+      </div>
+      
+      <a href="/" class="btn btn-secondary">홈으로</a>
+      <button onclick="ajax_edit()" class="btn btn-primary">수정</button>
+    <button onclick="ajax_delete()" class="btn btn-danger d-inline">삭제</button>
+    <a href="../<%= article.id %>" class="btn btn-green">돌아가기</a>
+  </div>
+</body>
+
+</html>

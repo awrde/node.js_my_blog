@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog</title>
+</head>
+<style>
+  body {
+    background-image: url(https://mblogthumb-phinf.pstatic.net/MjAxNzA1MTFfNDIg/MDAxNDk0NTA0ODM3MTc4.HGQvjJfg_z08JQwWEcY9-YosMGenKFXDnHXKpHcAlJYg.iu6HxUTkynqg7JKYxLEzzQlqT0HkuNl2TaKxg0VNEv4g.GIF.h0pe_goodluck/2302248294488_2VQL08702.gif?type=w800
+); 
+    background-attachment: fixed;
+    background-repeat:repeat-x;
+    background-position: 20% 90%;
+    
+  }
+</style>
+
+<body>
+  <div class="container">
+    <div class="card mt-4 mb-2">
+      <h1 class="mb-1">제목 : <%= article.title %>
+      </h1>
+      <div class="mb-2">
+        내용 : <%= article.description %>
+      </div>
+      <div>
+        작성자 : <%= article.writer %>
+      </div>
+      <div class="text-muted mb-2">
+        <%= article.createdAt.toLocaleDateString() %>
+      </div>
+    </div>
+    <a href="/" class="btn btn-secondary">홈으로</a>
+    <a href="/articles/edit/<%= article.id %>" class="btn btn-info">수정</a>
+    <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
+      <a href="/articles/edit/<%= article.id %>" class="btn btn-danger">삭제</a>
+    </form>
+
+  </div>
+</body>
+
+</html>
