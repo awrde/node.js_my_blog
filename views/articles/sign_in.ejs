@@ -19,6 +19,12 @@ function ajaxSignIn() {
         url: '/auth',
         data: { nickname, password },
         success: function (response) {
+          localStorage.setItem('token', response.token)
+            window.location.replace("/");
+          },
+            error: function (error) {
+            customAlert(error.responseJSON.errorMessage);
+          }
             // if(!token) {
             //     alert('닉네임 또는 비밀번호를 확인해')
                 
@@ -27,15 +33,15 @@ function ajaxSignIn() {
             //     alert('로그인 확인됐어!')
             //     location.href ='/'
             // }
-            if (response === 'welcome') {
-                alert('로그인 확인됐어!')
-                location.href = '/'
-            } else {
-                alert('닉네임 또는 비밀번호를 확인해!')
-            }
+            // if (response === 'welcome') {
+            //     alert('로그인 확인됐어!')
+            //     location.href = '/'
+            // } else {
+            //     alert('닉네임 또는 비밀번호를 확인해!')
+            // }
 
         }
-    })
+    )
 }
 
 </script>

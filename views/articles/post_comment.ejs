@@ -1,0 +1,10 @@
+<div class="form-group">
+    <label for="title">내용</label>
+    <input required value="<%= comment.description %>" type="text" name="description" id="description" class="form-control">
+  </div>
+    <div class="form-group">
+    <label for="writer">작성자</label>
+    <textarea name="writer" id="writer" class="form-control"><%= comment.writer %></textarea>
+  </div>
+  
+  <button onclick="ajaxPostComment" class="btn btn-primary">글쓰기</button>

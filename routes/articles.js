@@ -1,6 +1,7 @@
 const express = require('express')
 const Article = require('./../models/article')
 const router = express.Router()
+const authMiddleware = require('../middlewares/auth-middleware')
 
 router.get('/new', (req, res) => {
   res.render('articles/new', { article: new Article() })
@@ -26,7 +27,8 @@ router.put('/edit/', async (req, res) => {
   }
 })
 
-router.delete('/edit', async (req, res) => {
+router.delete('/edit', authMiddleware, async (req, res) => {
+  console.log(res.locals)
   password = req.body.password
   _id = req.body._id
   find = await Article.findOne({ _id: _id, password: password })

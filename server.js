@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const Article = require('./models/article')
+const Comment = require('./models/comment')
 const User = require('./models/user')
 const articleRouter = require('./routes/articles')
 const methodOverride = require('method-override')
@@ -55,25 +56,26 @@ app.get('/auth', (req, res) => {
 app.post('/auth', async (req, res) => {
   const { nickname, password } = req.body
 
-  const memberCheck = await User.findOne({
+  const user = await User.findOne({
     $and: [{ nickname }, { password }],
   })
-  if (memberCheck) {
-    const token = jwt.sign(
-      { memberCheckId: memberCheck.memberCheckId },
-      'mysecretkey'
-    )
-    // console.log(token)
-    res.send({ token })
+  if (user) {
+    const token = jwt.sign({ userId: user.userId }, 'my-secret-key')
+    console.log('토큰 값:', token)
+    res.status(200).send({ token })
     // res.send('welcome')
     return
   }
 
-  res.send()
+  res.status(400).send()
 })
 
-router.get('/users/me', authMiddleware, async (req, res) => {
-  res.status(400).send({})
+app.post('/comment', async (req, res) => {
+  const { post } = req.body
+  console.log(post)
+
+  const comment = new Comment({ post })
+  await comment.save()
 })
 
 app.use('/articles', articleRouter)

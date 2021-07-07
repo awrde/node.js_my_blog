@@ -9,6 +9,29 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Blog</title>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+function ajax_new_comment() {
+  const post = $('#post').val()
+  // const articleId = $(`#article.id`).val()
+  // const articleId = $(`<%= article.id %>`)
+  // let articleID = <%= article.id %>
+  // console.log(articleId)
+  $.ajax({
+    type: "POST",
+    url: '/comment',
+    data: { post },
+    success: function (response) {
+      if (response === 'correct') {
+        alert('댓글 생성 완료')
+      } else {
+        alert('댓글 생성 규칙에 어긋나요')
+      }
+    }
+  })
+}
+
+</script>
 <style>
   body {
     background-image: url(https://mblogthumb-phinf.pstatic.net/MjAxNzA1MTFfNDIg/MDAxNDk0NTA0ODM3MTc4.HGQvjJfg_z08JQwWEcY9-YosMGenKFXDnHXKpHcAlJYg.iu6HxUTkynqg7JKYxLEzzQlqT0HkuNl2TaKxg0VNEv4g.GIF.h0pe_goodluck/2302248294488_2VQL08702.gif?type=w800
@@ -41,7 +64,20 @@
       <a href="/articles/edit/<%= article.id %>" class="btn btn-danger">삭제</a>
     </form>
 
+    <div class="form-group">
+      댓글
+      <textarea name="post" id="post" class="form-control"></textarea>
+      <button onclick="ajax_new_comment()">작성</button>
+      
+    </div>
+
+      <div class="form-group">
+      <textarea name="writer" id="writer" class="form-control">작성자</textarea>
+    </div>
+    
   </div>
+
+
 </body>
 
 </html>

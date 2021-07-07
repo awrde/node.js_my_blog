@@ -22,7 +22,7 @@ function ajaxSignUp() {
       success: function (response) {
         if (response === 'correct') {
           alert('포켓몬 트레이너가 된 것을 축하해!')
-            location.href = '/'
+            location.href = '/auth'
         } else if(response === 'false_password') {
           alert('패스워드 확인란 확인해봐')
         } else {
