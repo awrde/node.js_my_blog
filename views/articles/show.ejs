@@ -11,27 +11,26 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-function ajax_new_comment() {
-  const post = $('#post').val()
-  // const articleId = $(`#article.id`).val()
-  // const articleId = $(`<%= article.id %>`)
-  // let articleID = <%= article.id %>
-  // console.log(articleId)
-  $.ajax({
-    type: "POST",
-    url: '/comment',
-    data: { post },
-    success: function (response) {
-      if (response === 'correct') {
-        alert('댓글 생성 완료')
-      } else {
-        alert('댓글 생성 규칙에 어긋나요')
-      }
-    }
-  })
-}
+  function ajax_new_comment() {
+    const postComment = $('#post').val()
+    const articleId = `<%= article.id %>`
 
-</script>
+    $.ajax({
+      type: "POST",
+      url: '/comment',
+      data: { postComment, articleId},
+      success: function (response) {
+        if (response === 'correct') {
+          alert('댓글 생성 완료')
+        } else {
+          alert('댓글 생성 규칙에 어긋나요')
+        }
+      }
+    })
+  }
+  
+  </script>
+
 <style>
   body {
     background-image: url(https://mblogthumb-phinf.pstatic.net/MjAxNzA1MTFfNDIg/MDAxNDk0NTA0ODM3MTc4.HGQvjJfg_z08JQwWEcY9-YosMGenKFXDnHXKpHcAlJYg.iu6HxUTkynqg7JKYxLEzzQlqT0HkuNl2TaKxg0VNEv4g.GIF.h0pe_goodluck/2302248294488_2VQL08702.gif?type=w800
@@ -44,6 +43,7 @@ function ajax_new_comment() {
 </style>
 
 <body>
+  
   <div class="container">
     <div class="card mt-4 mb-2">
       <h1 class="mb-1">제목 : <%= article.title %>

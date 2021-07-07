@@ -71,10 +71,11 @@ app.post('/auth', async (req, res) => {
 })
 
 app.post('/comment', async (req, res) => {
-  const { post } = req.body
-  console.log(post)
+  const { postComment, articleId } = req.body
+  console.log(postComment)
+  console.log(articleId)
 
-  const comment = new Comment({ post })
+  const comment = new Comment({ post: postComment, parentId: articleId })
   await comment.save()
 })
 
