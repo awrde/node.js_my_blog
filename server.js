@@ -9,6 +9,7 @@ const app = express()
 const authMiddleware = require('./middlewares/auth-middleware')
 const jwt = require('jsonwebtoken')
 const router = require('./routes/articles')
+const { findById, findOne } = require('./models/article')
 
 mongoose.connect('mongodb://test:test@localhost:27017/admin', {
   useNewUrlParser: true,
@@ -83,6 +84,24 @@ app.post('/comment', async (req, res) => {
     res.send('correct')
   }
 })
+
+app.delete('/comment', async (req, res) => {
+  // const comment = await comment.find(req.body)
+  // console.log(req.body)
+})
+
+// // 게시물 삭제
+// app.delete('/comment', OnlyAuthenticated, async (req, res) => {
+//   const board = '' //TODO: 어떤 게시물을 삭제 할 건가요~? 게시물을 특정지을 수 있어야겠어요 -> 지울 수 있는 권한이 있는 사람으로 검색해야겠죠~?
+//   if (String(board.writer._id) !== String(req.user._id)) {
+//     res.statusCode = 403
+//     res.send('권한이 없습니다.')
+//     return
+//   }
+//   await board.delete()
+//   res.statusCode = 200
+//   res.send()
+// })
 
 app.use('/articles', articleRouter)
 

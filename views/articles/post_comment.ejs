@@ -1,10 +1,45 @@
-<div class="form-group">
-    <label for="title">내용</label>
-    <input required value="<%= comment.description %>" type="text" name="description" id="description" class="form-control">
-  </div>
-    <div class="form-group">
-    <label for="writer">작성자</label>
-    <textarea name="writer" id="writer" class="form-control"><%= comment.writer %></textarea>
-  </div>
-  
-  <button onclick="ajaxPostComment" class="btn btn-primary">글쓰기</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>댓글 수정</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+  function editComment() {
+    const commentEdit = $('#post').val()
+    const article = `<%= article.id %>`
+    const comment = `<%= comment %>`
+    console.log(article)
+    $.ajax({
+      type: "PUT",
+      url: "/articles/comment/edit/:id",
+      data: { commentEdit, article, comment },
+      success: function(response) {
+        console.log('성공')
+      }
+    })
+  }
+
+</script>
+<body>
+  <div class="container">
+    <h1 class="mb-4">댓글 수정</h1>
+
+      <div class="form-group">
+        <label for="title">내용</label>
+        <input required value="<%= comment.post %>" type="text" name="post" id="post" class="form-control">
+      </div>
+      <div class="card-text mb-2">작성자 : <%= comment.writer%></div>
+      <div class="card-text mb-2">작성일 : <%= comment.createdAt.toLocaleDateString()%></div>
+      <button onclick="editComment()" >수정</button>
+
+      </div>
+      
+  </div></body>
+</html>

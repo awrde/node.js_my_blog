@@ -11,7 +11,6 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-  console.log(`<%= comment %>`)
 
   function ajax_new_comment() {
     const postComment = $('#post').val()
@@ -30,7 +29,26 @@
     })
   }
 
-  
+  function deleteComment() {
+    console.log('in')
+    const a = `<%= comment.id %>`
+    console.log(a)
+
+    // console.log(req.body)
+    // $.ajax({
+    //   type: "POST",
+    //   url: '/comment',
+    //   data: { postComment, articleId},
+    //   success: function (response) {
+    //     if (response === 'fail') {
+    //       alert('내용을 입력해!')
+    //     } else {
+    //       location.href = `/articles/<%= article.id %>`
+    //     }
+    //   }
+    // })
+  }
+
   </script>
 
 <style>
@@ -86,8 +104,13 @@
           </div>
           <div class="card-text mb-2">작성자 : <%= article.writer%></div>
         </div>
+        <button onclick="deleteComment(`<%= comment.id %>`)" >dd</button>
+        <a href="comment/edit/<%= comment.id %>" class="btn btn-primary">수정</a>
+        <a href="comment/<%= comment.id %>" class="btn btn-danger">삭제</a>
       </div>
     <% }) %>
+    
+
     
   </div>
 

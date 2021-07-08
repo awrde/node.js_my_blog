@@ -44,7 +44,9 @@ router.delete('/edit', authMiddleware, async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const article = await Article.findOne({ _id: req.params.id })
-  const comment = await Comment.find({ parentId: req.params.id })
+  const comment = await Comment.find({ parentId: req.params.id }).sort({
+    createdAt: 'desc',
+  })
   // console.log(comment)
   if (article == null) {
     res.redirect('/')
@@ -67,6 +69,31 @@ router.post('/', function (req, res) {
     }
     res.redirect('/')
   })
+})
+
+//댓글 삭제하기
+router.get('/comment/:id', async (req, res) => {
+  targetComment = await Comment.findById(req.params.id)
+  targetArticle = await Article.findById(targetComment.parentId)
+  await Comment.findByIdAndDelete(targetComment)
+  res.redirect(`/articles/${targetArticle.id}`)
+})
+
+router.get('/comment/edit/:id', async (req, res) => {
+  targetComment = await Comment.findById(req.params.id)
+  targetArticle = await Article.findById(targetComment.parentId)
+  res.render(`articles/post_comment`, {
+    comment: targetComment,
+    article: targetArticle,
+  })
+})
+
+router.put('/comment/edit/:id', async (req, res) => {
+  articleId = req.body.article
+  comment = req.body.comment
+  console.log(comment)
+  // find = await Comment.findOne({ _id: comment.id })
+  // console.log(find)
 })
 
 router.put(
