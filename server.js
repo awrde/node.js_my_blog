@@ -75,8 +75,13 @@ app.post('/comment', async (req, res) => {
   console.log(postComment)
   console.log(articleId)
 
-  const comment = new Comment({ post: postComment, parentId: articleId })
-  await comment.save()
+  if (postComment.length === 0) {
+    res.send('fail')
+  } else {
+    const comment = new Comment({ post: postComment, parentId: articleId })
+    await comment.save()
+    res.send('correct')
+  }
 })
 
 app.use('/articles', articleRouter)

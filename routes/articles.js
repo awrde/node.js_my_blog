@@ -1,5 +1,6 @@
 const express = require('express')
 const Article = require('./../models/article')
+const Comment = require('./../models/comment')
 const router = express.Router()
 const authMiddleware = require('../middlewares/auth-middleware')
 
@@ -43,8 +44,13 @@ router.delete('/edit', authMiddleware, async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   const article = await Article.findOne({ _id: req.params.id })
-  if (article == null) res.redirect('/')
-  res.render('articles/show', { article: article })
+  const comment = await Comment.find({ parentId: req.params.id })
+  // console.log(comment)
+  if (article == null) {
+    res.redirect('/')
+  }
+
+  res.render('articles/show', { article: article, comment: comment })
 })
 
 router.post('/', function (req, res) {

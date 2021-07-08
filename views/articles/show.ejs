@@ -11,23 +11,25 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+  console.log(`<%= comment %>`)
+
   function ajax_new_comment() {
     const postComment = $('#post').val()
     const articleId = `<%= article.id %>`
-
     $.ajax({
       type: "POST",
       url: '/comment',
       data: { postComment, articleId},
       success: function (response) {
-        if (response === 'correct') {
-          alert('댓글 생성 완료')
+        if (response === 'fail') {
+          alert('내용을 입력해!')
         } else {
-          alert('댓글 생성 규칙에 어긋나요')
+          location.href = `/articles/<%= article.id %>`
         }
       }
     })
   }
+
   
   </script>
 
@@ -66,14 +68,26 @@
 
     <div class="form-group">
       댓글
-      <textarea name="post" id="post" class="form-control"></textarea>
-      <button onclick="ajax_new_comment()">작성</button>
       
+      <textarea name="post" id="post" class="form-control"></textarea>
+      <button onclick="ajax_new_comment()" >작성</button>
     </div>
 
       <div class="form-group">
       <textarea name="writer" id="writer" class="form-control">작성자</textarea>
     </div>
+    
+    <% comment.forEach(comment => { %>
+      <div class="card mt-4">
+        <div class="card-body">
+          <h4 class="card-title">내용: <%= comment.post %></h4>
+          <div class="card-subtitle text-muted mb-2">
+            <%= comment.createdAt.toLocaleDateString() %>
+          </div>
+          <div class="card-text mb-2">작성자 : <%= article.writer%></div>
+        </div>
+      </div>
+    <% }) %>
     
   </div>
 
