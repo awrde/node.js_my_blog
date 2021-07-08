@@ -46,6 +46,9 @@
     const description = $('#description').val()
     $.ajax({
       type: "PUT",
+      headers: {
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
       url: `/articles/edit`,
       data: { password, _id, title, description, writer },
       success: function (response) {

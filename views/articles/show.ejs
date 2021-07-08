@@ -29,8 +29,9 @@
     })
   }
 
-  function deleteComment() {
+  function commentDelete() {
     console.log('in')
+    console.log(`<%= comment%>`)
     const a = `<%= comment.id %>`
     console.log(a)
 
@@ -104,6 +105,7 @@
           </div>
           <div class="card-text mb-2">작성자 : <%= comment.writer%></div>
         </div>
+        <button onclick="commentDelete(`<%= comment.id %>`)">작성</button>
         <a href="comment/edit/<%= comment.id %>" class="btn btn-primary">수정</a>
         <a href="comment/<%= comment.id %>" class="btn btn-danger">삭제</a>
       </div>

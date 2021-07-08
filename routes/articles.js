@@ -14,7 +14,7 @@ router.get('/edit/:id', async (req, res) => {
   res.render('articles/edit', { article: article })
 })
 
-router.put('/edit/', async (req, res) => {
+router.put('/edit/', authMiddleware, async (req, res) => {
   password = req.body[`password`]
   _id = req.body[`_id`]
   title = req.body[`title`]
