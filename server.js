@@ -18,8 +18,9 @@ mongoose.connect('mongodb://test:test@localhost:27017/admin', {
 })
 
 app.set('view engine', 'ejs')
-app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
 app.get('/', async (req, res) => {
   const articles = await Article.find().sort({ createdAt: 'desc' })

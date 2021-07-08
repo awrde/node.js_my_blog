@@ -12,16 +12,21 @@
 <script>
 
   function editComment() {
-    const commentEdit = $('#post').val()
-    const article = `<%= article.id %>`
-    const comment = `<%= comment %>`
+    let article = `<%= article.id %>`
+    let commentEdit = $('#post').val()
+    let comment = `<%= comment %>`
+
     console.log(article)
     $.ajax({
       type: "PUT",
       url: "/articles/comment/edit/:id",
       data: { commentEdit, article, comment },
       success: function(response) {
-        console.log('성공')
+        if (response === '수정 완료!') {
+          window.location.href = document.referrer
+
+          
+        }
       }
     })
   }

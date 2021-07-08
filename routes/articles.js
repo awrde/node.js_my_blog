@@ -3,6 +3,7 @@ const Article = require('./../models/article')
 const Comment = require('./../models/comment')
 const router = express.Router()
 const authMiddleware = require('../middlewares/auth-middleware')
+const comment = require('./../models/comment')
 
 router.get('/new', (req, res) => {
   res.render('articles/new', { article: new Article() })
@@ -89,10 +90,35 @@ router.get('/comment/edit/:id', async (req, res) => {
 })
 
 router.put('/comment/edit/:id', async (req, res) => {
-  articleId = req.body.article
-  comment = req.body.comment
-  console.log(comment)
-  // find = await Comment.findOne({ _id: comment.id })
+  // console.log(req.body)
+  // articleId = req.body.article
+  //  [comment = req.body
+  // console.log(req.body)
+  // c = req.body.comment
+  commentUpdate = req.body.commentEdit
+
+  d = req.body.comment.split(',')
+  e = d[0].split(' ')
+  commentId = e[3]
+  console.log(commentId)
+  console.log(commentUpdate)
+  if (commentUpdate.length !== 0) {
+    find = await Comment.findOne({ _id: commentId })
+    await find.update({ post: commentUpdate })
+    res.status(200).send('수정 완료!')
+  } else {
+    res.send('내용을 추가해!')
+  }
+  // d = c['_id']
+  // console.log(d)
+  // c = req.body['comment']
+  // console(c.post)
+  // console.log(c)
+
+  // console.log(comment)
+  // comment.id
+  // console.log(_id)
+  // find = await Comment.findOne({ comment })
   // console.log(find)
 })
 
