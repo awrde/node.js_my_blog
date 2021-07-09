@@ -63,7 +63,6 @@ app.post('/auth', async (req, res) => {
   })
   if (user) {
     const token = jwt.sign({ userId: user.userId }, 'my-secret-key')
-    console.log('토큰 값:', token)
     res.status(200).send({ token })
     // res.send('welcome')
     return
