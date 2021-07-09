@@ -72,15 +72,18 @@ app.post('/auth', async (req, res) => {
   res.status(400).send()
 })
 
-app.post('/comment', async (req, res) => {
+app.post('/comment', authMiddleware, async (req, res) => {
   const { postComment, articleId } = req.body
-  console.log(postComment)
-  console.log(articleId)
+  const writer = res.locals.user.nickname
 
   if (postComment.length === 0) {
     res.send('fail')
   } else {
-    const comment = new Comment({ post: postComment, parentId: articleId })
+    const comment = new Comment({
+      post: postComment,
+      parentId: articleId,
+      writer: writer,
+    })
     await comment.save()
     res.send('correct')
   }

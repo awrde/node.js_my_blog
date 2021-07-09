@@ -19,13 +19,16 @@
     console.log(article)
     $.ajax({
       type: "PUT",
+      headers: {
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
       url: "/articles/comment/edit/:id",
       data: { commentEdit, article, comment },
       success: function(response) {
         if (response === '수정 완료!') {
           window.location.href = document.referrer
-
-          
+        } else {
+          alert(response)
         }
       }
     })
