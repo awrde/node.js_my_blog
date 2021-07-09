@@ -31,11 +31,9 @@ router.put('/edit/', authMiddleware, async (req, res) => {
 })
 
 router.delete('/edit', authMiddleware, async (req, res) => {
-  console.log(res.locals)
   password = req.body.password
   _id = req.body._id
   find = await Article.findOne({ _id: _id, password: password })
-  console.log(find)
   if (find != null) {
     await Article.findByIdAndDelete(_id)
     res.send('correct')
@@ -49,7 +47,6 @@ router.get('/:id', async (req, res) => {
   const comment = await Comment.find({ parentId: req.params.id }).sort({
     createdAt: 'desc',
   })
-  // console.log(comment)
   if (article == null) {
     res.redirect('/')
   }
@@ -100,7 +97,6 @@ router.put('/comment/edit/:id', authMiddleware, async (req, res) => {
   e = d[0].split(' ')
   commentId = e[3]
   find = await Comment.findOne({ _id: commentId })
-  console.log('파인드', find)
 
   if (nickname != find.writer) {
     res.send('댓글 작성자가 다르다!')
