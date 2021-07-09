@@ -89,37 +89,28 @@ router.get('/comment/edit/:id', async (req, res) => {
   })
 })
 
-router.put('/comment/edit/:id', async (req, res) => {
-  // console.log(req.body)
-  // articleId = req.body.article
-  //  [comment = req.body
-  // console.log(req.body)
-  // c = req.body.comment
+router.put('/comment/edit/:id', authMiddleware, async (req, res) => {
   commentUpdate = req.body.commentEdit
-
+  const nickname = res.locals.user.nickname
   d = req.body.comment.split(',')
   e = d[0].split(' ')
   commentId = e[3]
-  console.log(commentId)
-  console.log(commentUpdate)
+  find = await Comment.findOne({ _id: commentId })
+  console.log('파인드', find)
+
+  if (nickname != find.writer) {
+    res.send('댓글 작성자가 다르다!')
+    return
+  }
+
   if (commentUpdate.length !== 0) {
     find = await Comment.findOne({ _id: commentId })
     await find.update({ post: commentUpdate })
     res.status(200).send('수정 완료!')
-  } else {
-    res.send('내용을 추가해!')
+    return
   }
-  // d = c['_id']
-  // console.log(d)
-  // c = req.body['comment']
-  // console(c.post)
-  // console.log(c)
 
-  // console.log(comment)
-  // comment.id
-  // console.log(_id)
-  // find = await Comment.findOne({ comment })
-  // console.log(find)
+  res.send('내용을 추가해!')
 })
 
 router.put(
