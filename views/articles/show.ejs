@@ -23,7 +23,7 @@
       url: '/comment',
       data: { postComment, articleId},
       success: function (response) {
-        if (response === 'fail') {
+        if (response === '삭제할거야?') {
           alert('내용을 입력해!')
         } else {
           location.href = `/articles/<%= article.id %>`
@@ -32,26 +32,31 @@
     })
   }
 
-  function commentDelete() {
-    console.log('in')
-    console.log(`<%= comment%>`)
-    const a = `<%= comment.id %>`
-    console.log(a)
 
-    // console.log(req.body)
-    // $.ajax({
-    //   type: "POST",
-    //   url: '/comment',
-    //   data: { postComment, articleId},
-    //   success: function (response) {
-    //     if (response === 'fail') {
-    //       alert('내용을 입력해!')
-    //     } else {
-    //       location.href = `/articles/<%= article.id %>`
-    //     }
-    //   }
-    // })
+
+  function commentDelete(commentId) {
+    
+    if (confirm("삭제 하시겠습니까? ")) {
+      $.ajax({
+      type: "DELETE",
+      headers: {
+      authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+      url: '/articles/comment',
+      data: { commentId },
+      success: function (response) { 
+        if (response == 'success'){
+        window.location.reload()
+       } else {
+         alert('댓글 주인이 아니다!')
+       }
+      }
+      }) 
+    } else {
+      return false
+    }
   }
+  
 
   </script>
 
@@ -67,7 +72,26 @@
 </style>
 
 <body>
-  
+    <div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="container">
     <div class="card mt-4 mb-2">
       <h1 class="mb-1">제목 : <%= article.title %>
@@ -94,8 +118,6 @@
       <textarea name="post" id="post" class="form-control"></textarea>
       <button onclick="ajax_new_comment()" >작성</button>
     </div>
-
-      
     
     <% comment.forEach(comment => { %>
       <div class="card mt-4">
@@ -106,9 +128,8 @@
           </div>
           <div class="card-text mb-2">작성자 : <%= comment.writer%></div>
         </div>
-        <button onclick="commentDelete(`<%= comment.id %>`)">작성</button>
         <a href="comment/edit/<%= comment.id %>" class="btn btn-primary">수정</a>
-        <a href="comment/<%= comment.id %>" class="btn btn-danger">삭제</a>
+        <button onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger">삭제</button>
       </div>
     <% }) %>
     
