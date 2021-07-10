@@ -3,7 +3,7 @@ const Article = require('./../models/article')
 const Comment = require('./../models/comment')
 const router = express.Router()
 const authMiddleware = require('../middlewares/auth-middleware')
-const comment = require('./../models/comment')
+// const comment = require('./../models/comment')
 const { clearCache } = require('ejs')
 
 router.get('/new', (req, res) => {
@@ -50,7 +50,7 @@ router.get('/:id', async (req, res) => {
   if (article == null) {
     res.redirect('/')
   }
-
+  console.log(comment)
   res.render('articles/show', { article: article, comment: comment })
 })
 
@@ -121,6 +121,16 @@ router.put(
   },
   saveArticleAndRedirect('edit')
 )
+
+router.get('/comment/asd', authMiddleware, async (req, res) => {
+  userNickname = res.locals.user.nickname
+  const { postId } = req.query
+  console.log('유저Id', userNickname)
+  console.log(postId)
+  const comments = await Comment.find({ parentId: postId })
+  console.log(comments)
+  res.send({ userNickname, comments })
+})
 
 function saveArticleAndRedirect(path) {
   return async (req, res) => {

@@ -82,36 +82,43 @@
     }
   }
 
-  $(document).ready(function check_user() { 
-     $('#Hi').hide()
-  
-    })
+  $(document).ready(function check_user() {
    
+   const postId = location.pathname.split('/')[2]
 
+    $.ajax({
+      type: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      url: '/articles/comment/asd',
+      data: { postId },
+      success: function (response) {
+        console.log(response)
+        
+        const comments = response[ "comments" ]
+        const userNickname = response[ "userNickname" ]
+        console.log(comments, userNickname)
+        
+        for (const c of comments)
+        { 
+          console.log(c.writer)
+          console.log(userNickname)
+           if (c.writer == userNickname) { 
+            console.log(c._id)
+            $(`#modify${c._id}`).show();
+          }
 
+        }
+    }
+      })
+    })
+  
 </script>
 
 
 <body>
-  <div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Modal body text goes here.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   <div class="container">
     <div class="card mt-4 mb-2">
@@ -151,10 +158,10 @@
           <div class="card-text mb-2">작성자 : <%= comment.writer%>
           </div>
         </div>
-        
-    
-        <a  href="comment/edit/<%= comment.id %>" class="btn btn-primary" id="<%= comment.id %>" name="btn-edit">수정</a>
-        <button onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger" id="btn-delete">삭제</button>
+        <a style="display:none" href="comment/edit/<%= comment.id %>" class="btn btn-primary" id="modify<%= comment.id%>"
+          name="btn-edit">수정</a>
+        <button onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger"
+          id="delete<%comment.id%>">삭제</button>
       </div>
       <% }) %>
 
