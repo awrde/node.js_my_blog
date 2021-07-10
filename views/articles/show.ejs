@@ -9,6 +9,17 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Blog</title>
 </head>
+<style>
+  body {
+    background-image: url(https://mblogthumb-phinf.pstatic.net/MjAxNzA1MTFfNDIg/MDAxNDk0NTA0ODM3MTc4.HGQvjJfg_z08JQwWEcY9-YosMGenKFXDnHXKpHcAlJYg.iu6HxUTkynqg7JKYxLEzzQlqT0HkuNl2TaKxg0VNEv4g.GIF.h0pe_goodluck/2302248294488_2VQL08702.gif?type=w800
+);
+    background-attachment: fixed;
+    background-repeat: repeat-x;
+    background-position: 20% 90%;
+
+  }
+</style>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 
@@ -37,15 +48,9 @@
       error: function (request, status, error) {
         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
         window.location.href = "/auth"
-
       }
-
     })
   }
-
-
-
-
 
   function commentDelete(commentId) {
 
@@ -69,29 +74,25 @@
           alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
           window.location.href = "/auth"
         }
-
       })
     }
 
     else {
-
       return false
     }
   }
 
+  $(document).ready(function check_user() { 
+     $('#Hi').hide() 
+    })
+   
+
+  function Hi(commentId) {
+    hi
+  }
 
 </script>
 
-<style>
-  body {
-    background-image: url(https://mblogthumb-phinf.pstatic.net/MjAxNzA1MTFfNDIg/MDAxNDk0NTA0ODM3MTc4.HGQvjJfg_z08JQwWEcY9-YosMGenKFXDnHXKpHcAlJYg.iu6HxUTkynqg7JKYxLEzzQlqT0HkuNl2TaKxg0VNEv4g.GIF.h0pe_goodluck/2302248294488_2VQL08702.gif?type=w800
-);
-    background-attachment: fixed;
-    background-repeat: repeat-x;
-    background-position: 20% 90%;
-
-  }
-</style>
 
 <body>
   <div class="modal" tabindex="-1" role="dialog">
@@ -152,8 +153,10 @@
           <div class="card-text mb-2">작성자 : <%= comment.writer%>
           </div>
         </div>
-        <a href="comment/edit/<%= comment.id %>" class="btn btn-primary">수정</a>
-        <button onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger">삭제</button>
+        <a href="comment/edit/<%= comment.id %>" class="btn btn-primary" id="<%= comment.id %>" name="btn-edit">수정</a>
+
+        <a class="btn btn-primary" id="Hi" name="btn-edit">수정</a>
+        <button onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger" id="btn-delete">삭제</button>
       </div>
       <% }) %>
 
