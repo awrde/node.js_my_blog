@@ -11,12 +11,33 @@
   body{background-image: url(https://image.fmkorea.com/files/attach/new/20180627/425547776/837628905/1125113061/be82af9c593fedfcc40d20b5a9dae43c.png);
       background-attachment: fixed;}
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  function signUp() {
+    $.ajax({
+      type: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      url: '/signUp',
+      data: { },
+      success: function (response) {
+        console.log('로그인완료')
+        alert("이미 로그인이 되어있습니다.")
+        window.location.reload()
+        },
+        error:function(){
+          window.location.href = "/auth"
+   }
+  })
+  }
+</script>
 
 <body>
   <div class="container">
     <h1 class="mb-4 text-center">어서와 난 피카츄라고해</h1>
     <a href="/articles/new" class="btn btn-success">글쓸래</a>
-    <a href="/signUp" class="btn btn-info">회원가입</a>
+    <a onclick="signUp()" class="btn btn-info">회원가입</a>
     <a href="/auth" class="btn btn-info">로그인</a>
 
     <% articles.forEach(article => { %>
