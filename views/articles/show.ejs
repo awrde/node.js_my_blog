@@ -18,79 +18,101 @@
     $.ajax({
       type: "POST",
       headers: {
-      authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       url: '/comment',
-      data: { postComment, articleId},
+      data: { postComment, articleId },
       success: function (response) {
-        if (response === '삭제할거야?') {
+        if (response === '로그인 필요') {
+          alert('내용을 입력해!')
+          return
+        }
+
+        if (response === 'fail') {
           alert('내용을 입력해!')
         } else {
           location.href = `/articles/<%= article.id %>`
         }
+      },
+      error: function (request, status, error) {
+        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+        window.location.href = "/auth"
+
       }
+
     })
   }
 
 
 
+
+
   function commentDelete(commentId) {
-    
+
     if (confirm("삭제 하시겠습니까? ")) {
       $.ajax({
-      type: "DELETE",
-      headers: {
-      authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-      url: '/articles/comment',
-      data: { commentId },
-      success: function (response) { 
-        if (response == 'success'){
-        window.location.reload()
-       } else {
-         alert('댓글 주인이 아니다!')
-       }
-      }
-      }) 
-    } else {
+        type: "DELETE",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        url: '/articles/comment',
+        data: { commentId },
+        success: function (response) {
+          if (response == 'success') {
+            window.location.reload()
+          } else {
+            alert('댓글 주인이 아니다!')
+          }
+        },
+
+        error: function (request, status, error) {
+          alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+          window.location.href = "/auth"
+        }
+
+      })
+    }
+
+    else {
+
       return false
     }
   }
-  
 
-  </script>
+
+</script>
 
 <style>
   body {
     background-image: url(https://mblogthumb-phinf.pstatic.net/MjAxNzA1MTFfNDIg/MDAxNDk0NTA0ODM3MTc4.HGQvjJfg_z08JQwWEcY9-YosMGenKFXDnHXKpHcAlJYg.iu6HxUTkynqg7JKYxLEzzQlqT0HkuNl2TaKxg0VNEv4g.GIF.h0pe_goodluck/2302248294488_2VQL08702.gif?type=w800
-); 
+);
     background-attachment: fixed;
-    background-repeat:repeat-x;
+    background-repeat: repeat-x;
     background-position: 20% 90%;
-    
+
   }
 </style>
 
 <body>
-    <div class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <div class="container">
     <div class="card mt-4 mb-2">
@@ -114,27 +136,29 @@
 
     <div class="form-group">
       댓글
-      
+
       <textarea name="post" id="post" class="form-control"></textarea>
-      <button onclick="ajax_new_comment()" >작성</button>
+      <button onclick="ajax_new_comment()">작성</button>
     </div>
-    
-    <% comment.forEach(comment => { %>
+
+    <% comment.forEach(comment=> { %>
       <div class="card mt-4">
         <div class="card-body">
-          <h4 class="card-title">내용: <%= comment.post %></h4>
+          <h4 class="card-title">내용: <%= comment.post %>
+          </h4>
           <div class="card-subtitle text-muted mb-2">
             <%= comment.createdAt.toLocaleDateString() %>
           </div>
-          <div class="card-text mb-2">작성자 : <%= comment.writer%></div>
+          <div class="card-text mb-2">작성자 : <%= comment.writer%>
+          </div>
         </div>
         <a href="comment/edit/<%= comment.id %>" class="btn btn-primary">수정</a>
         <button onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger">삭제</button>
       </div>
-    <% }) %>
-    
+      <% }) %>
 
-    
+
+
   </div>
 
 

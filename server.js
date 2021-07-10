@@ -27,8 +27,8 @@ app.get('/', async (req, res) => {
   res.render('articles/index', { articles: articles })
 })
 
-app.get('/signUp', (req, res) => {
-  res.render('articles/sign_up')
+app.get('/signUp', authMiddleware, async (req, res) => {
+  res.send()
 })
 
 app.post('/signUp', async (req, res) => {
@@ -74,18 +74,34 @@ app.post('/auth', async (req, res) => {
 app.post('/comment', authMiddleware, async (req, res) => {
   const { postComment, articleId } = req.body
   const writer = res.locals.user.nickname
+  console.log(res.locals.user)
+  // if (writer === ) {
+  //   res.status(200).send('로그인 필요')
+  // }
 
   if (postComment.length === 0) {
     res.send('fail')
-  } else {
-    const comment = new Comment({
-      post: postComment,
-      parentId: articleId,
-      writer: writer,
-    })
-    await comment.save()
-    res.send('correct')
+    return
   }
+  const comment = new Comment({
+    post: postComment,
+    parentId: articleId,
+    writer: writer,
+  })
+  await comment.save()
+  res.send('correct')
+
+  // try {
+  //   res.send('로그인 부탁해!')
+  // } catch (err) {
+  //   res.send('로그인 부탁해!')
+  // }
+  // try {
+  //   article = await article.save()
+  //   res.redirect(`/articles/${article.id}`)
+  // } catch (e) {
+  //   res.render(`articles/${path}`, { article: article })
+  // }
 })
 
 app.use('/articles', articleRouter)
