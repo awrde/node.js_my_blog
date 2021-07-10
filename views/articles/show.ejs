@@ -83,13 +83,11 @@
   }
 
   $(document).ready(function check_user() { 
-     $('#Hi').hide() 
+     $('#Hi').hide()
+  
     })
    
 
-  function Hi(commentId) {
-    hi
-  }
 
 </script>
 
@@ -153,9 +151,9 @@
           <div class="card-text mb-2">작성자 : <%= comment.writer%>
           </div>
         </div>
-        <a href="comment/edit/<%= comment.id %>" class="btn btn-primary" id="<%= comment.id %>" name="btn-edit">수정</a>
-
-        <a class="btn btn-primary" id="Hi" name="btn-edit">수정</a>
+        
+    
+        <a  href="comment/edit/<%= comment.id %>" class="btn btn-primary" id="<%= comment.id %>" name="btn-edit">수정</a>
         <button onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger" id="btn-delete">삭제</button>
       </div>
       <% }) %>
