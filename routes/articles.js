@@ -3,7 +3,6 @@ const Article = require('./../models/article')
 const Comment = require('./../models/comment')
 const router = express.Router()
 const authMiddleware = require('../middlewares/auth-middleware')
-// const comment = require('./../models/comment')
 const { clearCache } = require('ejs')
 
 router.get('/new', (req, res) => {
@@ -72,7 +71,7 @@ router.post('/', function (req, res) {
 
 //댓글 삭제하기
 router.delete('/comment/', authMiddleware, async (req, res) => {
-  a = targetComment = await comment.findById(req.body.commentId)
+  a = targetComment = await Comment.findById(req.body.commentId)
   if (targetComment.writer === res.locals.user.nickname) {
     await Comment.findByIdAndDelete(req.body.commentId)
     res.send('success')
