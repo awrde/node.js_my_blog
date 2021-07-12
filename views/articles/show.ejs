@@ -94,19 +94,15 @@
       url: '/articles/comment/asd',
       data: { postId },
       success: function (response) {
-        console.log(response)
         
         const comments = response[ "comments" ]
         const userNickname = response[ "userNickname" ]
-        console.log(comments, userNickname)
         
         for (const c of comments)
         { 
-          console.log(c.writer)
-          console.log(userNickname)
            if (c.writer == userNickname) { 
-            console.log(c._id)
             $(`#modify${c._id}`).show();
+            $(`#delete${c._id}`).show();
           }
 
         }
@@ -160,8 +156,8 @@
         </div>
         <a style="display:none" href="comment/edit/<%= comment.id %>" class="btn btn-primary" id="modify<%= comment.id%>"
           name="btn-edit">수정</a>
-        <button onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger"
-          id="delete<%comment.id%>">삭제</button>
+        <button style="display:none" onclick="commentDelete(`<%= comment.id %>`)" class="btn btn-danger"
+          id="delete<%= comment.id%>">삭제</button>
       </div>
       <% }) %>
 
