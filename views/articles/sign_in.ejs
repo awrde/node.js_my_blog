@@ -23,22 +23,9 @@ function ajaxSignIn() {
             window.location.replace("/");
           },
             error: function (error) {
-            customAlert(error.responseJSON.errorMessage);
+            alert(error.responseJSON.errorMessage)
           }
-            // if(!token) {
-            //     alert('닉네임 또는 비밀번호를 확인해')
-                
-            // }
-            // else {
-            //     alert('로그인 확인됐어!')
-            //     location.href ='/'
-            // }
-            // if (response === 'welcome') {
-            //     alert('로그인 확인됐어!')
-            //     location.href = '/'
-            // } else {
-            //     alert('닉네임 또는 비밀번호를 확인해!')
-            // }
+      
 
         }
     )

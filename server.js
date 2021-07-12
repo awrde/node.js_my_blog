@@ -10,6 +10,7 @@ const authMiddleware = require('./middlewares/auth-middleware')
 const jwt = require('jsonwebtoken')
 const router = require('./routes/articles')
 const { findById, findOne } = require('./models/article')
+const Joi = require('joi')
 
 mongoose.connect('mongodb://test:test@localhost:27017/admin', {
   useNewUrlParser: true,
@@ -27,28 +28,41 @@ app.get('/', async (req, res) => {
   res.render('articles/index', { articles: articles })
 })
 
-app.get('/signUp', authMiddleware, async (req, res) => {
-  res.send()
+app.get('/signUp', async (req, res) => {
+  res.render('articles/sign_up')
+})
+
+const postUsersSchema = Joi.object({
+  nickname: Joi.string().alphanum().min(3).max(30).required(),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+  confirmPassword: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
 })
 
 app.post('/signUp', async (req, res) => {
-  const { nickname, password, confirmPassword } = req.body
+  try {
+    const { nickname, password, confirmPassword } =
+      await postUsersSchema.validateAsync(req.body)
 
-  if (password !== confirmPassword) {
-    res.send('false_password')
-    return
+    if (password !== confirmPassword) {
+      res.send('false_password')
+      return
+    }
+
+    const exisUsers = await User.find({ nickname })
+    if (exisUsers.length) {
+      res.send('false_nickname')
+      return
+    }
+
+    const user = new User({ nickname, password })
+    await user.save()
+
+    res.send('correct')
+  } catch (err) {
+    res.status(400).send({
+      errorMessage: '요청한 데이터 형식이 올바르지 않습니다.',
+    })
   }
-
-  const exisUsers = await User.find({ nickname })
-  if (exisUsers.length) {
-    res.send('false_nickname')
-    return
-  }
-
-  const user = new User({ nickname, password })
-  await user.save()
-
-  res.send('correct')
 })
 
 app.get('/auth', (req, res) => {
@@ -56,19 +70,24 @@ app.get('/auth', (req, res) => {
 })
 
 app.post('/auth', async (req, res) => {
-  const { nickname, password } = req.body
-
-  const user = await User.findOne({
-    $and: [{ nickname }, { password }],
-  })
-  if (user) {
+  try {
+    const { nickname, password } = req.body
+    const user = await User.findOne({
+      $and: [{ nickname }, { password }],
+    })
+    if (!user) {
+      res
+        .status(400)
+        .send({ errorMessage: '닉네임 또는 패스워드가 잘못됐습니다.' })
+      return
+    }
     const token = jwt.sign({ userId: user.userId }, 'my-secret-key')
-    res.status(200).send({ token })
-    // res.send('welcome')
-    return
+    res.send({ token })
+  } catch (err) {
+    res.status(400).send({
+      errorMessage: '요청한 데이터 형식이 올바르지 않습니다.',
+    })
   }
-
-  res.status(400).send()
 })
 
 app.post('/comment', authMiddleware, async (req, res) => {

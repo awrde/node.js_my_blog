@@ -25,10 +25,13 @@ function ajaxSignUp() {
             location.href = '/auth'
         } else if(response === 'false_password') {
           alert('패스워드 확인란 확인해봐')
-        } else {
-            alert('중복된 닉네임이야')
-        }
-      }
+        } else if(response === 'false_nickname') {
+            alert('이미 가입된 닉네임이야')
+        } 
+      },
+      error: function (error) {
+            alert(error.responseJSON.errorMessage)
+          }
     })
   }
 
