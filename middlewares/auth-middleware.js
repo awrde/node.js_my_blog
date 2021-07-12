@@ -4,7 +4,7 @@ const User = require('../models/user')
 module.exports = (req, res, next) => {
   const { authorization } = req.headers
   const [tokenType, tokenValue] = authorization.split(' ')
-  console.log('미들웨어 토큰이 정상적으로 들어온다.', tokenType, tokenValue)
+  console.log('미들웨어 토큰 값:', tokenType, tokenValue)
   if (tokenType !== 'Bearer') {
     res.status(401).send({
       errorMessage: '로그인 후 사용하세요',
