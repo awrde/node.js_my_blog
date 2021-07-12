@@ -16,19 +16,12 @@
   function signUp() {
     $.ajax({
       type: "GET",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
       url: '/signUp',
       data: { },
       success: function (response) {
-        console.log('로그인완료')
-        alert("이미 로그인이 되어있습니다.")
-        window.location.reload()
-        },
-        error:function(){
-          window.location.href = "/auth"
-   }
+        window.location.href= "/signUp"
+        }
+       
   })
   }
 </script>
